@@ -49,9 +49,13 @@ begin
       if s1 > 0 then
          for i := 0 to 10 do begin
             if s2 = 0 
-            then begin
+            then
+            begin
                if pr <= i
-               then res := res + count(idx + 1, i, s1, 0, n);
+               then
+               begin
+                  res := res + count(idx + 1, i, s1, 0, n);
+               end;
                else res := res + count(idx + 1, i, s1, 1, n);
             end;
             else
