@@ -52,11 +52,12 @@ begin
             then
             begin
                if pr <= i
-               then
-               begin
+               then begin
                   res := res + count(idx + 1, i, s1, 0, n);
                end;
-               else res := res + count(idx + 1, i, s1, 1, n);
+               else begin
+                  res := res + count(idx + 1, i, s1, 1, n);
+               end;
             end;
             else
             begin
@@ -69,20 +70,24 @@ begin
             if i < ShortInt(n[idx]) - 48
             then tmp := 1;
             else tmp := 0;
-            if s2 = 0 
+
+            if s2 = 0
             then begin
                if pr <= i 
-               then res := res + count(idx + 1, i, tmp, 0, n);
-               else res := res + count(idx + 1, i, tmp, 1, n);
+               then begin
+                  res := res + count(idx + 1, i, tmp, 0, n);
+               end;
+               else begin
+                  res := res + count(idx + 1, i, tmp, 1, n);
+               end;
             end;
-            else
-            begin
+            else begin
                if pr >= i then
                   res := res + count(idx + 1, i, tmp, 1, n);        
             end;
          end;
-   writeln(res);
-   count := res;
+      writeln(res);
+      count := res;
 end;
 
 var
