@@ -33,9 +33,9 @@ begin
 end;
 
 
-function count(idx: ShortInt; pr: ShortInt; s1: ShortInt; s2: ShortInt; n: String): ShortInt;
+function count(idx: i32; pr: i32; s1: i32; s2: i32; n: String): i64;
 var
-   res, tmp, len, i: i8;
+   res, tmp, len, i: i64;
 begin
    len := Length(n);
    tmp := 0;
@@ -45,7 +45,7 @@ begin
 
    if(s1 = 1) then
    begin
-      for i := 0 to 10 do begin
+      for i := 0 to 9 do begin
          if(s2 = 0) then
          begin
             if(pr <= i) then
@@ -58,8 +58,8 @@ begin
    end
    else
    begin
-      for i := 0 to ShortInt(n[idx]) do begin
-         if(i < ShortInt(n[idx])) then tmp := 1
+      for i := 0 to i32(n[idx]) do begin
+         if(i < i32(n[idx])) then tmp := 1
          else tmp := 0;
          if(s2 = 0) then
          begin
