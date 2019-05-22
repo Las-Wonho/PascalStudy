@@ -44,36 +44,38 @@ var
 begin
    len := Length(n);
    res := 0;
-   if idx = len then
-      res := s1;
+   if idx = len then res := s1;
    if idx <> len then
       if s1 > 0 then
          for i := 0 to 10 do begin
-            if s2 = 0 then begin
-               if pr <= i then
-                  res := res + count(idx + 1, i, s1, 0, n);
-               if not pr <= i then
-                  res := res + count(idx + 1, i, s1, 1, n);
+            if s2 = 0 
+            then begin
+               if pr <= i
+               then res := res + count(idx + 1, i, s1, 0, n);
+               else res := res + count(idx + 1, i, s1, 1, n);
             end;
-            if not (s2 = 0) then
+            else
+            begin
                if pr >= i then
                   res := res + count(idx + 1, i, s1, 1, n);
+            end;
          end;
       if not s1 > 0 then
          for i := 0 to ShortInt(n[idx])-48 do begin
-            if i < ShortInt(n[idx]) - 48 then
-               tmp := 1;
-            if not i < ShortInt(n[idx]) - 48 then
-               tmp := 0;
-            if s2 = 0 then begin
-               if pr <= i then
-                  res := res + count(idx + 1, i, tmp, 0, n);
-               if not pr <= i then
-                  res := res + count(idx + 1, i, tmp, 1, n);
+            if i < ShortInt(n[idx]) - 48
+            then tmp := 1;
+            else tmp := 0;
+            if s2 = 0 
+            then begin
+               if pr <= i 
+               then res := res + count(idx + 1, i, tmp, 0, n);
+               else res := res + count(idx + 1, i, tmp, 1, n);
             end;
-            if not s2 = 0 then
+            else
+            begin
                if pr >= i then
                   res := res + count(idx + 1, i, tmp, 1, n);        
+            end;
          end;
    writeln(res);
    count := res;
