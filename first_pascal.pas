@@ -38,41 +38,56 @@ begin
 end;
 
 
-function count(idx: i8, pr: i8, s1: i8, s2: i8,len: i8, n: String): i8;
+function count(idx: ShortInt; pr: ShortInt; s1: ShortInt; s2: ShortInt; n: String): ShortInt;
 var
-   res, tmp: i8;
+   res, tmp, len, i: i8;
 begin
-   res := 0
-   if idx == len then
+   len := Length(n);
+   res := 0;
+   if idx = len then
       res := s1;
-   else
+   if idx <> len then
       if s1 > 0 then
          for i := 0 to 10 do begin
-            if s2 == 0 then
+            if s2 = 0 then begin
                if pr <= i then
                   res := res + count(idx + 1, i, s1, 0, n);
-               else
+               if not pr <= i then
                   res := res + count(idx + 1, i, s1, 1, n);
-            else
+            end;
+            if not (s2 = 0) then
                if pr >= i then
                   res := res + count(idx + 1, i, s1, 1, n);
          end;
-      else
-        for i := 0 to n[idx] do begin
-        
-        end;
-end
-
+      if not s1 > 0 then
+         for i := 0 to ShortInt(n[idx])-48 do begin
+            if i < ShortInt(n[idx]) - 48 then
+               tmp := 1;
+            if not i < ShortInt(n[idx]) - 48 then
+               tmp := 0;
+            if s2 = 0 then begin
+               if pr <= i then
+                  res := res + count(idx + 1, i, tmp, 0, n);
+               if not pr <= i then
+                  res := res + count(idx + 1, i, tmp, 1, n);
+            end;
+            if not s2 = 0 then
+               if pr >= i then
+                  res := res + count(idx + 1, i, tmp, 1, n);        
+         end;
+   writeln(res);
+   count := res;
+end;
 
 var
    n:String;
    arr_len:i8;
-   count, i: i16;
+   countc, i: i16;
 begin
-   readln(count);
-   for i := 0 to count-1 do begin
+   readln(countc);
+   for i := 0 to countc-1 do begin
       readln(n);
-      
       writeln(check(n));
+      writeln(count(0,0,0,0,n));
    end
 end.
