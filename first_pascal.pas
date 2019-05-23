@@ -12,7 +12,8 @@ type
   f64 = Double;
   IntArray = Array of i32;
   IntArrayPtr = ^IntArray;
-
+  C = array[0..75,0..10,0..2,0..2] of i32;
+  pc = ^C;
 
 function check(n: String): Boolean;
 var
@@ -33,13 +34,13 @@ begin
 end;
 
 
-function count(idx: i32; pr: i32; s1: i32; s2: i32; n: String): i64;
+function count(idx: i32; pr: i32; s1: i32; s2: i32; n: String; cache:pc):i64;
 var
    res, tmp, len, i: i64;
 begin
    len := Length(n);
    tmp := 0;
-   writeln(idx, ' - ', pr, ' - ', s1, ' - ', s2);
+   if(cache^[idx,pr,s1,s2]<>-1) then Exit(cache^[idx,pr,s1,s2]);
    if(idx = len) then begin
       Exit(s1);
    end;
@@ -51,11 +52,11 @@ begin
          if(s2 = 0) then
          begin
             if(pr <= i) then
-               res := res + count(idx+1, i, s1, 0, n) 
-            else res := res + count(idx+1, i, s1, 1, n);
+               res := res + count(idx+1, i, s1, 0, n, cache) 
+            else res := res + count(idx+1, i, s1, 1, n, cache);
          end
          else if(pr >= i) then
-              res := res + count(idx+1, i, s1, 1, n);
+              res := res + count(idx+1, i, s1, 1, n, cache);
       end;
    end
    else
@@ -66,25 +67,35 @@ begin
          if(s2 = 0) then
          begin
             if(pr <= i) then
-               res := res + count(idx+1, i, tmp, 0, n)
+               res := res + count(idx+1, i, tmp, 0, n,cache)
             else
-               res := res + count(idx+1, i, tmp, 1, n);
+               res := res + count(idx+1, i, tmp, 1, n,cache);
          end
          else if(pr >= i) then
-            res := res + count(idx+1, i, tmp, 1, n);
+            res := res + count(idx+1, i, tmp, 1, n,cache);
       end;
    end;
+   cache^[idx,pr,s1,s2] := res;
    Exit(res);
 end;
 
 var
    n:String;
    arr_len:i8;
-   countc, i: i16;
+   countc, i, j: i16;
+   cache: C;
+
 begin
+   for i := 0 to 75 do
+      for j := 0 to 10 do begin
+         cache[i,j,0,0] := -1;
+         cache[i,j,0,1] := -1;
+         cache[i,j,1,0] := -1;
+         cache[i,j,1,1] := -1;
+      end;
    readln(countc);
    for i := 0 to countc-1 do begin
       readln(n);
-      writeln(count(0,0,0,0,n));
+      writeln(count(0,0,0,0,n, @cache));
    end
 end.
