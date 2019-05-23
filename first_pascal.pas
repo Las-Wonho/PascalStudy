@@ -40,7 +40,7 @@ var
 begin
    len := Length(n);
    tmp := 0;
-   if(cache^[idx,pr,s1,s2]<>-1) then Exit(cache^[idx,pr,s1,s2]);
+   if(cache^[idx,pr,s1,s2]<>-5) then Exit(cache^[idx,pr,s1,s2]);
    if(idx = len) then begin
       Exit(s1);
    end;
@@ -76,26 +76,28 @@ begin
       end;
    end;
    cache^[idx,pr,s1,s2] := res;
-   Exit(res);
+   Exit(cache^[idx,pr,s1,s2]);
 end;
 
 var
    n:String;
    arr_len:i8;
-   countc, i, j: i16;
+   countc, i, j, k: i16;
    cache: C;
 
 begin
-   for i := 0 to 75 do
-      for j := 0 to 10 do begin
-         cache[i,j,0,0] := -1;
-         cache[i,j,0,1] := -1;
-         cache[i,j,1,0] := -1;
-         cache[i,j,1,1] := -1;
-      end;
    readln(countc);
-   for i := 0 to countc-1 do begin
+   for k := 0 to countc-1 do begin
+      for i := 0 to 75 do
+         for j := 0 to 10 do begin
+            cache[i,j,0,0] := -5;
+            cache[i,j,0,1] := -5;
+            cache[i,j,1,0] := -5;
+            cache[i,j,1,1] := -5;
+         end;
       readln(n);
-      writeln(count(0,0,0,0,n, @cache));
+      if(check(n))then
+      writeln(count(0,0,0,0,n, @cache))
+      else writeln('-1');
    end
 end.
