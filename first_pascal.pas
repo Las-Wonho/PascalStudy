@@ -17,12 +17,12 @@ type
 
 function check(n: String): Boolean;
 var
-   i: i8;
+   i: i32;
    up,res: Boolean;
 begin
    up := true;
    res := true;
-   for i := 1 to Length(n) do begin
+   for i := 2 to Length(n) do begin
       if n[i-1] < n[i] then
          if not up then
             res := false;
@@ -81,7 +81,7 @@ end;
 
 var
    n:String;
-   countc, i, j, k: i32;
+   countc, i, j, k: i64;
    cache: C;
 
 begin
