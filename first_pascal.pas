@@ -12,7 +12,7 @@ type
   f64 = Double;
   IntArray = Array of i32;
   IntArrayPtr = ^IntArray;
-  C = array[0..75,0..10,0..2,0..2] of i32;
+  C = array[0..75,0..10,0..2,0..2] of i64;
   pc = ^C;
 
 function check(n: String): Boolean;
@@ -81,8 +81,7 @@ end;
 
 var
    n:String;
-   arr_len:i8;
-   countc, i, j, k: i16;
+   countc, i, j, k: i32;
    cache: C;
 
 begin
