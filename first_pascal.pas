@@ -39,8 +39,10 @@ var
 begin
    len := Length(n);
    tmp := 0;
-   if(idx = len) then
+   writeln(idx, ' - ', pr, ' - ', s1, ' - ', s2);
+   if(idx = len) then begin
       Exit(s1);
+   end;
    res := 0;
 
    if(s1 = 1) then
@@ -58,8 +60,8 @@ begin
    end
    else
    begin
-      for i := 0 to i32(n[idx]) do begin
-         if(i < i32(n[idx])) then tmp := 1
+      for i := 0 to (i32(n[idx+1])-48) do begin
+         if(i < i32(n[idx+1])-48) then tmp := 1
          else tmp := 0;
          if(s2 = 0) then
          begin
