@@ -83,7 +83,6 @@ begin
    readln(countc);
    for i := 0 to countc-1 do begin
       readln(n);
-      writeln(check(n));
       writeln(count(0,0,0,0,n));
    end
 end.
