@@ -96,7 +96,8 @@ begin
          end;
       readln(n);
       if(check(n))then
-      Writeln(count(0,0,0,0,n, @cache))
-      else Writeln('-1');
+      Write(count(0,0,0,0,n, @cache))
+      else Write('-1');
+      Write(#13#10);
    end;
 end.
