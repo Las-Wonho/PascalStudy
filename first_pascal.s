@@ -9,11 +9,11 @@ P$HELLOWORLD_$$_CHECK$SHORTSTRING$$BOOLEAN:
 .Lc1:
 # Temps allocated between rsp+8 and rsp+264
 # [first_pascal.pas]
-# [15] begin
+# [20] begin
 	leaq	-264(%rsp),%rsp
 .Lc3:
 # Var $result located in register al
-# Var i located in register esi
+# Var i located in register si
 # Var up located in register r8b
 # Var res located in register al
 # Var n located at rsp+0, size=OS_64
@@ -25,23 +25,23 @@ P$HELLOWORLD_$$_CHECK$SHORTSTRING$$BOOLEAN:
 	movq	$264,%rdi
 	call	FPC_STACKCHECK
 # Var up located in register r8b
-# [16] up := true;
+# [21] up := true;
 	movb	$1,%r8b
 # Var res located in register al
-# [17] res := true;
+# [22] res := true;
 	movb	$1,%al
-# [18] for i := 2 to Length(n) do begin
-	movzbl	8(%rsp),%edx
-# Var i located in register esi
-	movl	$2,%esi
-	cmpl	%esi,%edx
+# [23] for i := 2 to Length(n) do begin
+	movzbw	8(%rsp),%dx
+# Var i located in register si
+	movw	$2,%si
+	cmpw	%si,%dx
 	jl	.Lj12
-	subl	$1,%esi
+	subw	$1,%si
 	.balign 8,0x90
 .Lj13:
-	addl	$1,%esi
-# [19] if n[i-1] < n[i] then
-	movslq	%esi,%rcx
+	addw	$1,%si
+# [24] if n[i-1] < n[i] then
+	movswq	%si,%rcx
 	subq	$1,%rcx
 	jno	.Lj16
 	call	FPC_OVERFLOW
@@ -54,15 +54,15 @@ P$HELLOWORLD_$$_CHECK$SHORTSTRING$$BOOLEAN:
 	movb	8(%rsp,%rcx,1),%cl
 	cmpb	8(%rsp,%rdi,1),%cl
 	jnb	.Lj15
-# [20] if not up then
+# [25] if not up then
 	testb	%r8b,%r8b
 	jne	.Lj18
-# [21] res := false;
+# [26] res := false;
 	movb	$0,%al
 .Lj18:
 .Lj15:
-# [22] if n[i-1] > n[i] then
-	movslq	%esi,%rcx
+# [27] if n[i-1] > n[i] then
+	movswq	%si,%rcx
 	subq	$1,%rcx
 	jno	.Lj23
 	call	FPC_OVERFLOW
@@ -75,16 +75,16 @@ P$HELLOWORLD_$$_CHECK$SHORTSTRING$$BOOLEAN:
 	movb	8(%rsp,%rcx,1),%cl
 	cmpb	8(%rsp,%rdi,1),%cl
 	jna	.Lj22
-# [23] up := false;
+# [28] up := false;
 	movb	$0,%r8b
 .Lj22:
-	cmpl	%esi,%edx
+	cmpw	%si,%dx
 	jg	.Lj13
 .Lj12:
 # Var $result located in register al
 # Var res located in register al
 # PeepHole Optimization,var9
-# [27] end;
+# [32] end;
 	andl	$255,%eax
 	leaq	264(%rsp),%rsp
 	ret
@@ -92,375 +92,326 @@ P$HELLOWORLD_$$_CHECK$SHORTSTRING$$BOOLEAN:
 .Le0:
 	.size	P$HELLOWORLD_$$_CHECK$SHORTSTRING$$BOOLEAN, .Le0 - P$HELLOWORLD_$$_CHECK$SHORTSTRING$$BOOLEAN
 
-.section .text.n_p$helloworld_$$_count$longint$longint$longint$longint$shortstring$pc$$int64
+.section .text.n_p$helloworld_$$_count$longint$longint$shortint$shortint$ps$$int64
 	.balign 16,0x90
-.globl	P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$LONGINT$LONGINT$SHORTSTRING$PC$$INT64
-	.type	P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$LONGINT$LONGINT$SHORTSTRING$PC$$INT64,@function
-P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$LONGINT$LONGINT$SHORTSTRING$PC$$INT64:
+.globl	P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$SHORTINT$SHORTINT$PS$$INT64
+	.type	P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$SHORTINT$SHORTINT$PS$$INT64,@function
+P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$SHORTINT$SHORTINT$PS$$INT64:
 .Lc4:
-# Temps allocated between rsp+8 and rsp+304
-# [34] begin
+# Temps allocated between rsp+0 and rsp+48
+# [39] begin
 	pushq	%rbx
 	pushq	%r12
 	pushq	%r13
 	pushq	%r14
 	pushq	%r15
-	leaq	-304(%rsp),%rsp
+	leaq	-48(%rsp),%rsp
 .Lc6:
 # Var idx located in register eax
 # Var pr located in register eax
-# Var s1 located in register eax
-# Var s2 located in register eax
-# Var cache located in register rcx
+# Var s1 located in register al
+# Var s2 located in register al
+# Var n located in register rax
 # Var $result located in register rax
 # Var res located in register rax
-# Var tmp located in register r14d
-# Var len located in register ecx
-# Var i located in register r12d
-# Var n located at rsp+0, size=OS_64
+# Var tmp located in register r14w
+# Var t located in register bx
+# Var i located in register r13w
 	movl	%edi,%eax
-	movq	%rax,272(%rsp)
+	movq	%rax,(%rsp)
 	movl	%esi,%eax
-	movq	%rax,280(%rsp)
-	movl	%edx,%eax
-	movq	%rax,288(%rsp)
-	movl	%ecx,%eax
-	movq	%rax,296(%rsp)
-	movq	%r8,(%rsp)
-	movq	%r9,%r15
-	movq	(%rsp),%rdx
-	movq	$255,%rsi
-	leaq	8(%rsp),%rdi
-	call	fpc_shortstr_to_shortstr
-	movq	$304,%rdi
+	movq	%rax,24(%rsp)
+	movb	%dl,32(%rsp)
+	movb	%cl,40(%rsp)
+	movq	%r8,8(%rsp)
+	movq	$48,%rdi
 	call	FPC_STACKCHECK
-# [35] len := Length(n);
-	movzbl	8(%rsp),%ecx
-# Var len located in register ecx
-# Var tmp located in register r14d
-# [36] tmp := 0;
-	movl	$0,%r14d
-# [37] if(cache^[idx,pr,s1,s2]<>-5) then Exit(cache^[idx,pr,s1,s2]);
-	movl	272(%rsp),%eax
-	movl	%eax,%edx
-	andl	$4294967295,%edx
-	imulq	$792,%rdx,%rsi
-	movl	280(%rsp),%eax
-	movl	%eax,%edx
-	andl	$4294967295,%edx
-	leaq	(%r15,%rsi),%rdi
-	imulq	$72,%rdx,%rdx
-	movl	288(%rsp),%eax
-	movl	%eax,%esi
-	andl	$4294967295,%esi
-	leaq	(%rdi,%rdx),%rdi
-	imulq	$24,%rsi,%rdx
-	movl	296(%rsp),%eax
-	movl	%eax,%esi
-	andl	$4294967295,%esi
-	leaq	(%rdi,%rdx),%rax
-	cmpq	$-5,(%rax,%rsi,8)
-	je	.Lj35
-	movl	272(%rsp),%eax
-	movl	%eax,%edx
-	andl	$4294967295,%edx
-	imulq	$792,%rdx,%rsi
-	movl	280(%rsp),%eax
-	movl	%eax,%edx
-	andl	$4294967295,%edx
-	leaq	(%r15,%rsi),%rdi
-	imulq	$72,%rdx,%rdx
-	movl	288(%rsp),%eax
-	movl	%eax,%esi
-	andl	$4294967295,%esi
-	leaq	(%rdi,%rdx),%rdi
-	imulq	$24,%rsi,%rdx
-	movl	296(%rsp),%eax
-	movl	%eax,%esi
-	andl	$4294967295,%esi
-	leaq	(%rdi,%rdx),%rdx
-	movq	(%rdx,%rsi,8),%rax
-	movq	%rax,264(%rsp)
+# [40] res := cache[idx,pr,s1,s2];
+	movl	(%rsp),%edx
+	movl	%edx,%eax
+	andl	$4294967295,%eax
+	imulq	$792,%rax,%rcx
+	movl	24(%rsp),%edx
+	movl	%edx,%eax
+	andl	$4294967295,%eax
+	imulq	$72,%rax,%rdx
+	movb	32(%rsp),%al
+# PeepHole Optimization,var9
+	andl	$255,%eax
+	leaq	U_$P$HELLOWORLD_$$_CACHE(%rcx,%rdx),%rcx
+	imulq	$24,%rax,%rax
+	movb	40(%rsp),%dl
+# PeepHole Optimization,var9
+	andl	$255,%edx
+	leaq	(%rcx,%rax),%rax
+# Var res located in register rax
+	movq	(%rax,%rdx,8),%rax
+# [41] if(res<>-1) then Exit(res);
+	cmpq	$-1,%rax
+	je	.Lj33
+	movq	%rax,16(%rsp)
 	jmp	.Lj28
-.Lj35:
-# [38] if(idx = len) then begin
-	movl	272(%rsp),%eax
-	cmpl	%ecx,%eax
+.Lj33:
+# Var tmp located in register r14w
+# [42] tmp := 0;
+	movw	$0,%r14w
+# [43] if(idx = len) then begin
+	movslq	(%rsp),%rax
+	cmpq	U_$P$HELLOWORLD_$$_LEN,%rax
 	jne	.Lj39
-# [39] Exit(s1);
-	movslq	288(%rsp),%rax
-	movq	%rax,264(%rsp)
+# [44] Exit(s1);
+	movsbq	32(%rsp),%rax
+	movq	%rax,16(%rsp)
 	jmp	.Lj28
 .Lj39:
-# Var res located in register r13
-# [41] res := 0;
-	movq	$0,%r13
-# [43] if(s1 = 1) then
-	movl	288(%rsp),%eax
-	cmpl	$1,%eax
+# Var res located in register r15
+# [46] res := 0;
+	movq	$0,%r15
+# [48] if(s1 = 1) then
+	cmpb	$1,32(%rsp)
 	jne	.Lj45
-# [45] for i := 0 to 9 do begin
-	movl	$0,%r12d
-	subl	$1,%r12d
+# [50] for i := 0 to 9 do begin
+	movw	$0,%r13w
+	subw	$1,%r13w
 	.balign 8,0x90
 .Lj48:
-	addl	$1,%r12d
-# [46] if(s2 = 0) then
-	movl	296(%rsp),%eax
-	testl	%eax,%eax
+	addw	$1,%r13w
+# [51] if(s2 = 0) then
+	movb	40(%rsp),%al
+	testb	%al,%al
 	jne	.Lj50
-# [48] if(pr <= i) then
-	movl	280(%rsp),%eax
-	cmpl	%r12d,%eax
-	jnle	.Lj52
-# [49] res := res + count(idx+1, i, s1, 0, n, cache)
-	movslq	272(%rsp),%rax
+# [53] if(pr <= i) then
+	movswl	%r13w,%eax
+	movl	24(%rsp),%edx
+	cmpl	%edx,%eax
+	jnge	.Lj52
+# [54] res := res + count(idx+1, i, s1, 0, n)
+	movslq	(%rsp),%rax
 	addq	$1,%rax
 	jno	.Lj57
 	call	FPC_OVERFLOW
 .Lj57:
+	movl	%eax,%r9d
+	movswl	%r13w,%eax
 	movl	%eax,%edi
-	movq	%r15,%r9
-	leaq	8(%rsp),%r8
-	movl	288(%rsp),%eax
-	movl	%eax,%edx
-	movl	%r12d,%eax
+	movq	8(%rsp),%rsi
+	movsbl	32(%rsp),%eax
 	movl	$0,%ecx
-	movl	%eax,%esi
-	call	P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$LONGINT$LONGINT$SHORTSTRING$PC$$INT64
-	addq	%r13,%rax
-	jno	.Lj68
+	movl	%eax,%edx
+	movq	%rsi,%r8
+	movl	%edi,%esi
+	movl	%r9d,%edi
+	call	P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$SHORTINT$SHORTINT$PS$$INT64
+	addq	%r15,%rax
+	jno	.Lj66
 	call	FPC_OVERFLOW
-.Lj68:
-	movq	%rax,%r13
-	jmp	.Lj86
+.Lj66:
+	movq	%rax,%r15
+	jmp	.Lj82
 .Lj52:
-# [50] else res := res + count(idx+1, i, s1, 1, n, cache);
-	movslq	272(%rsp),%rax
+# [55] else res := res + count(idx+1, i, s1, 1, n);
+	movslq	(%rsp),%rax
 	addq	$1,%rax
-	jno	.Lj74
+	jno	.Lj72
 	call	FPC_OVERFLOW
-.Lj74:
+.Lj72:
+	movl	%eax,%r9d
+	movswl	%r13w,%eax
 	movl	%eax,%edi
-	movq	%r15,%r9
-	leaq	8(%rsp),%r8
-	movl	288(%rsp),%eax
-	movl	%eax,%edx
-	movl	%r12d,%eax
+	movq	8(%rsp),%rsi
+	movsbl	32(%rsp),%eax
 	movl	$1,%ecx
-	movl	%eax,%esi
-	call	P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$LONGINT$LONGINT$SHORTSTRING$PC$$INT64
-	addq	%r13,%rax
-	jno	.Lj85
+	movl	%eax,%edx
+	movq	%rsi,%r8
+	movl	%edi,%esi
+	movl	%r9d,%edi
+	call	P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$SHORTINT$SHORTINT$PS$$INT64
+	addq	%r15,%rax
+	jno	.Lj81
 	call	FPC_OVERFLOW
-.Lj85:
-	movq	%rax,%r13
-	jmp	.Lj86
+.Lj81:
+	movq	%rax,%r15
+	jmp	.Lj82
 .Lj50:
-# [52] else if(pr >= i) then
-	movl	280(%rsp),%eax
-	cmpl	%r12d,%eax
-	jnge	.Lj88
-# [53] res := res + count(idx+1, i, s1, 1, n, cache);
-	movslq	272(%rsp),%rax
+# [57] else if(pr >= i) then
+	movswl	%r13w,%edx
+	movl	24(%rsp),%eax
+	cmpl	%eax,%edx
+	jnle	.Lj84
+# [58] res := res + count(idx+1, i, s1, 1, n);
+	movslq	(%rsp),%rax
 	addq	$1,%rax
-	jno	.Lj93
+	jno	.Lj89
 	call	FPC_OVERFLOW
-.Lj93:
+.Lj89:
+	movl	%eax,%r9d
+	movswl	%r13w,%eax
 	movl	%eax,%edi
-	movq	%r15,%r9
-	leaq	8(%rsp),%r8
-	movl	288(%rsp),%eax
-	movl	%eax,%edx
-	movl	%r12d,%eax
+	movq	8(%rsp),%rsi
+	movsbl	32(%rsp),%eax
 	movl	$1,%ecx
-	movl	%eax,%esi
-	call	P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$LONGINT$LONGINT$SHORTSTRING$PC$$INT64
-	addq	%r13,%rax
-	jno	.Lj104
+	movl	%eax,%edx
+	movq	%rsi,%r8
+	movl	%edi,%esi
+	movl	%r9d,%edi
+	call	P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$SHORTINT$SHORTINT$PS$$INT64
+	addq	%r15,%rax
+	jno	.Lj98
 	call	FPC_OVERFLOW
-.Lj104:
-	movq	%rax,%r13
-.Lj88:
-.Lj86:
-	cmpl	$9,%r12d
+.Lj98:
+	movq	%rax,%r15
+.Lj84:
+.Lj82:
+	cmpw	$9,%r13w
 	jl	.Lj48
-	jmp	.Lj105
+	jmp	.Lj99
 .Lj45:
-# [58] for i := 0 to (i32(n[idx+1])-48) do begin
-	movslq	272(%rsp),%rax
+# [63] t := i32(n^[idx+1])-48;
+	movslq	(%rsp),%rax
 	addq	$1,%rax
-	jno	.Lj108
+	jno	.Lj102
 	call	FPC_OVERFLOW
-.Lj108:
+.Lj102:
 # PeepHole Optimization,var9
 	andl	$255,%eax
-	movzbl	8(%rsp,%rax,1),%eax
+	movq	8(%rsp),%rdx
+	movzbl	(%rdx,%rax,1),%eax
 	movslq	%eax,%rax
 	subq	$48,%rax
-	jno	.Lj109
+	jno	.Lj103
 	call	FPC_OVERFLOW
-.Lj109:
-	movl	%eax,%ebx
-	movl	$0,%r12d
-	cmpl	%r12d,%ebx
-	jl	.Lj111
-	subl	$1,%r12d
+.Lj103:
+	movw	%ax,%bx
+# [64] for i := 0 to t do begin
+	movw	%bx,%r12w
+	movw	$0,%r13w
+	cmpw	%r13w,%r12w
+	jl	.Lj107
+	subw	$1,%r13w
 	.balign 8,0x90
-.Lj112:
-	addl	$1,%r12d
-# [59] if(i < i32(n[idx+1])-48) then tmp := 1
-	movslq	272(%rsp),%rax
+.Lj108:
+	addw	$1,%r13w
+# [65] if(i < t) then tmp := 1
+	cmpw	%bx,%r13w
+	jnl	.Lj110
+	movw	$1,%r14w
+	jmp	.Lj113
+.Lj110:
+# [66] else tmp := 0;
+	movw	$0,%r14w
+.Lj113:
+# [67] if(s2 = 0) then
+	movb	40(%rsp),%al
+	testb	%al,%al
+	jne	.Lj117
+# [69] if(pr <= i) then
+	movswl	%r13w,%eax
+	movl	24(%rsp),%edx
+	cmpl	%edx,%eax
+	jnge	.Lj119
+# [70] res := res + count(idx+1, i, tmp, 0, n)
+	movslq	(%rsp),%rax
 	addq	$1,%rax
-	jno	.Lj115
+	jno	.Lj124
 	call	FPC_OVERFLOW
-.Lj115:
+.Lj124:
+	movl	%eax,%edi
+	movb	%r14b,%al
+	movsbl	%al,%edx
+	movswl	%r13w,%eax
+	movl	%eax,%esi
+	movq	8(%rsp),%rax
+	movl	$0,%ecx
+	movq	%rax,%r8
+	call	P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$SHORTINT$SHORTINT$PS$$INT64
+	addq	%r15,%rax
+	jno	.Lj133
+	call	FPC_OVERFLOW
+.Lj133:
+	movq	%rax,%r15
+	jmp	.Lj149
+.Lj119:
+# [72] res := res + count(idx+1, i, tmp, 1, n);
+	movslq	(%rsp),%rax
+	addq	$1,%rax
+	jno	.Lj139
+	call	FPC_OVERFLOW
+.Lj139:
+	movl	%eax,%edi
+	movb	%r14b,%al
+	movsbl	%al,%edx
+	movswl	%r13w,%eax
+	movl	%eax,%esi
+	movq	8(%rsp),%rax
+	movl	$1,%ecx
+	movq	%rax,%r8
+	call	P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$SHORTINT$SHORTINT$PS$$INT64
+	addq	%r15,%rax
+	jno	.Lj148
+	call	FPC_OVERFLOW
+.Lj148:
+	movq	%rax,%r15
+	jmp	.Lj149
+.Lj117:
+# [74] else if(pr >= i) then
+	movswl	%r13w,%edx
+	movl	24(%rsp),%eax
+	cmpl	%eax,%edx
+	jnle	.Lj151
+# [75] res := res + count(idx+1, i, tmp, 1, n);
+	movslq	(%rsp),%rax
+	addq	$1,%rax
+	jno	.Lj156
+	call	FPC_OVERFLOW
+.Lj156:
+	movl	%eax,%edi
+	movb	%r14b,%al
+	movsbl	%al,%edx
+	movswl	%r13w,%eax
+	movl	%eax,%esi
+	movq	8(%rsp),%rax
+	movl	$1,%ecx
+	movq	%rax,%r8
+	call	P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$SHORTINT$SHORTINT$PS$$INT64
+	addq	%r15,%rax
+	jno	.Lj165
+	call	FPC_OVERFLOW
+.Lj165:
+	movq	%rax,%r15
+.Lj151:
+.Lj149:
+	cmpw	%r13w,%r12w
+	jg	.Lj108
+.Lj107:
+.Lj99:
+# [78] cache[idx,pr,s1,s2] := res;
+	movl	(%rsp),%edx
+	movl	%edx,%eax
+	andl	$4294967295,%eax
+	imulq	$792,%rax,%rcx
+	movl	24(%rsp),%edx
+	movl	%edx,%eax
+	andl	$4294967295,%eax
+	imulq	$72,%rax,%rdx
+	movb	32(%rsp),%al
 # PeepHole Optimization,var9
 	andl	$255,%eax
-	movzbl	8(%rsp,%rax,1),%eax
-	movslq	%eax,%rax
-	subq	$48,%rax
-	jno	.Lj116
-	call	FPC_OVERFLOW
-.Lj116:
-	movslq	%r12d,%rdx
-	cmpq	%rdx,%rax
-	jng	.Lj114
-	movl	$1,%r14d
-	jmp	.Lj119
-.Lj114:
-# [60] else tmp := 0;
-	movl	$0,%r14d
-.Lj119:
-# [61] if(s2 = 0) then
-	movl	296(%rsp),%eax
-	testl	%eax,%eax
-	jne	.Lj123
-# [63] if(pr <= i) then
-	movl	280(%rsp),%eax
-	cmpl	%r12d,%eax
-	jnle	.Lj125
-# [64] res := res + count(idx+1, i, tmp, 0, n,cache)
-	movslq	272(%rsp),%rax
-	addq	$1,%rax
-	jno	.Lj130
-	call	FPC_OVERFLOW
-.Lj130:
-	movl	%eax,%edi
-	movq	%r15,%r9
-	leaq	8(%rsp),%r8
-	movl	%r14d,%edx
-	movl	%r12d,%eax
-	movl	$0,%ecx
-	movl	%eax,%esi
-	call	P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$LONGINT$LONGINT$SHORTSTRING$PC$$INT64
-	addq	%r13,%rax
-	jno	.Lj141
-	call	FPC_OVERFLOW
-.Lj141:
-	movq	%rax,%r13
-	jmp	.Lj159
-.Lj125:
-# [66] res := res + count(idx+1, i, tmp, 1, n,cache);
-	movslq	272(%rsp),%rax
-	addq	$1,%rax
-	jno	.Lj147
-	call	FPC_OVERFLOW
-.Lj147:
-	movl	%eax,%edi
-	movq	%r15,%r9
-	leaq	8(%rsp),%r8
-	movl	%r14d,%edx
-	movl	%r12d,%eax
-	movl	$1,%ecx
-	movl	%eax,%esi
-	call	P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$LONGINT$LONGINT$SHORTSTRING$PC$$INT64
-	addq	%r13,%rax
-	jno	.Lj158
-	call	FPC_OVERFLOW
-.Lj158:
-	movq	%rax,%r13
-	jmp	.Lj159
-.Lj123:
-# [68] else if(pr >= i) then
-	movl	280(%rsp),%eax
-	cmpl	%r12d,%eax
-	jnge	.Lj161
-# [69] res := res + count(idx+1, i, tmp, 1, n,cache);
-	movslq	272(%rsp),%rax
-	addq	$1,%rax
-	jno	.Lj166
-	call	FPC_OVERFLOW
-.Lj166:
-	movl	%eax,%edi
-	movq	%r15,%r9
-	leaq	8(%rsp),%r8
-	movl	%r14d,%edx
-	movl	%r12d,%eax
-	movl	$1,%ecx
-	movl	%eax,%esi
-	call	P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$LONGINT$LONGINT$SHORTSTRING$PC$$INT64
-	addq	%r13,%rax
-	jno	.Lj177
-	call	FPC_OVERFLOW
-.Lj177:
-	movq	%rax,%r13
-.Lj161:
-.Lj159:
-	cmpl	%r12d,%ebx
-	jg	.Lj112
-.Lj111:
-.Lj105:
-# [72] cache^[idx,pr,s1,s2] := res;
-	movq	%r15,%rcx
-# Var cache located in register rcx
-	movl	272(%rsp),%eax
-	movl	%eax,%edx
-	andl	$4294967295,%edx
-	imulq	$792,%rdx,%rdx
-	movl	280(%rsp),%eax
-	movl	%eax,%esi
-	andl	$4294967295,%esi
-	leaq	(%rcx,%rdx),%rdi
-	imulq	$72,%rsi,%rsi
-	movl	288(%rsp),%eax
-	movl	%eax,%edx
-	andl	$4294967295,%edx
-	leaq	(%rdi,%rsi),%rdi
-	imulq	$24,%rdx,%rdx
-	movl	296(%rsp),%eax
-	movl	%eax,%esi
-	andl	$4294967295,%esi
-	leaq	(%rdi,%rdx),%rdx
-	movq	%r13,%rax
+	leaq	U_$P$HELLOWORLD_$$_CACHE(%rcx,%rdx),%rdx
+	imulq	$24,%rax,%rax
+	movb	40(%rsp),%cl
+# PeepHole Optimization,var9
+	andl	$255,%ecx
+	leaq	(%rdx,%rax),%rdx
+	movq	%r15,%rax
 # Var res located in register rax
-	movq	%rax,(%rdx,%rsi,8)
-# Var cache located in register rcx
-# [73] Exit(cache^[idx,pr,s1,s2]);
-	movl	272(%rsp),%eax
-	movl	%eax,%edx
-	andl	$4294967295,%edx
-	imulq	$792,%rdx,%rdx
-	movl	280(%rsp),%eax
-	movl	%eax,%esi
-	andl	$4294967295,%esi
-	leaq	(%rcx,%rdx),%rdi
-	imulq	$72,%rsi,%rdx
-	movl	288(%rsp),%eax
-	movl	%eax,%ecx
-	andl	$4294967295,%ecx
-	leaq	(%rdi,%rdx),%rsi
-	imulq	$24,%rcx,%rdx
-	movl	296(%rsp),%eax
-	movl	%eax,%ecx
-	andl	$4294967295,%ecx
-	leaq	(%rsi,%rdx),%rdx
-	movq	(%rdx,%rcx,8),%rax
-	movq	%rax,264(%rsp)
+	movq	%rax,(%rdx,%rcx,8)
+# Var res located in register rax
+# [79] Exit(res);
+	movq	%rax,16(%rsp)
 .Lj28:
-# [74] end;
-	movq	264(%rsp),%rax
-	leaq	304(%rsp),%rsp
+# [80] end;
+	movq	16(%rsp),%rax
+	leaq	48(%rsp),%rsp
 	popq	%r15
 	popq	%r14
 	popq	%r13
@@ -469,7 +420,7 @@ P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$LONGINT$LONGINT$SHORTSTRING$PC$$INT64:
 	ret
 .Lc5:
 .Le1:
-	.size	P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$LONGINT$LONGINT$SHORTSTRING$PC$$INT64, .Le1 - P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$LONGINT$LONGINT$SHORTSTRING$PC$$INT64
+	.size	P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$SHORTINT$SHORTINT$PS$$INT64, .Le1 - P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$SHORTINT$SHORTINT$PS$$INT64
 
 .section .text.n_main
 	.balign 16,0x90
@@ -480,107 +431,78 @@ PASCALMAIN:
 	.type	main,@function
 main:
 .Lc7:
-# Temps allocated between rsp+0 and rsp+8
-# [81] begin
+# [83] begin
 	pushq	%rbx
 	pushq	%r12
 	pushq	%r13
 	pushq	%r14
 	pushq	%r15
-	leaq	-16(%rsp),%rsp
 .Lc9:
-# Var countc located in register r12w
-# Var i located in register r15w
-# Var j located in register bx
-# Var k located in register r13w
+# Var i located in register r15
+# Var j located in register rbx
+# Var k located in register r13
 	call	FPC_INITIALIZEUNITS
-	movw	$0,%ax
-	movw	$0,%r15w
-	movw	$0,%bx
-	movw	$0,%ax
-# [82] readln(countc);
+	movq	$0,%r15
+	movq	$0,%rbx
+	movq	$0,%rax
+# [84] readln(countc);
 	call	fpc_get_input
-	movq	%rax,%r13
-	movq	%rsp,%rsi
-	movq	%r13,%rdi
+	movq	%rax,%r12
+	movq	$U_$P$HELLOWORLD_$$_COUNTC,%rsi
+	movq	%r12,%rdi
 	call	fpc_read_text_sint
 	call	FPC_IOCHECK
-# Var countc located in register r12w
-	movw	(%rsp),%r12w
-	movq	%r13,%rdi
+	movq	%r12,%rdi
 	call	fpc_readln_end
 	call	FPC_IOCHECK
-# [83] for k := 0 to countc-1 do begin
-	movswq	%r12w,%r12
-	subq	$1,%r12
-	jno	.Lj194
+# [85] for k := 0 to countc-1 do begin
+	movq	U_$P$HELLOWORLD_$$_COUNTC,%rax
+	subq	$1,%rax
+	jno	.Lj180
 	call	FPC_OVERFLOW
-.Lj194:
-# Var k located in register r13w
-	movw	$0,%r13w
-	cmpw	%r13w,%r12w
-	jl	.Lj196
-	subw	$1,%r13w
+.Lj180:
+	movq	%rax,%r12
+# Var k located in register r13
+	movq	$0,%r13
+	cmpq	%r13,%r12
+	jl	.Lj182
+	subq	$1,%r13
 	.balign 8,0x90
-.Lj197:
-	addw	$1,%r13w
-# [84] for i := 0 to 75 do
-	movw	$0,%r15w
-	subw	$1,%r15w
+.Lj183:
+	addq	$1,%r13
+# [86] for i := 0 to 75 do
+	movq	$0,%r15
+	subq	$1,%r15
 	.balign 8,0x90
-.Lj200:
-	addw	$1,%r15w
-# [85] for j := 0 to 10 do begin
-	movw	$0,%bx
-	subw	$1,%bx
+.Lj186:
+	addq	$1,%r15
+# [87] for j := 0 to 10 do begin
+	movq	$0,%rbx
+	subq	$1,%rbx
 	.balign 8,0x90
-.Lj203:
-	addw	$1,%bx
-# [86] cache[i,j,0,0] := -5;
-	movw	%r15w,%ax
-# PeepHole Optimization,var11
-	andl	$65535,%eax
-	imulq	$792,%rax,%rdx
-	movw	%bx,%ax
-# PeepHole Optimization,var11
-	andl	$65535,%eax
-	imulq	$72,%rax,%rax
-	movq	$-5,U_$P$HELLOWORLD_$$_CACHE(%rdx,%rax)
-# [87] cache[i,j,0,1] := -5;
-	movw	%r15w,%ax
-# PeepHole Optimization,var11
-	andl	$65535,%eax
-	imulq	$792,%rax,%rdx
-	movw	%bx,%ax
-# PeepHole Optimization,var11
-	andl	$65535,%eax
-	imulq	$72,%rax,%rax
-	movq	$-5,U_$P$HELLOWORLD_$$_CACHE+8(%rdx,%rax)
-# [88] cache[i,j,1,0] := -5;
-	movw	%r15w,%ax
-# PeepHole Optimization,var11
-	andl	$65535,%eax
-	imulq	$792,%rax,%rdx
-	movw	%bx,%ax
-# PeepHole Optimization,var11
-	andl	$65535,%eax
-	imulq	$72,%rax,%rax
-	movq	$-5,U_$P$HELLOWORLD_$$_CACHE+24(%rdx,%rax)
-# [89] cache[i,j,1,1] := -5;
-	movw	%r15w,%ax
-# PeepHole Optimization,var11
-	andl	$65535,%eax
-	imulq	$792,%rax,%rdx
-	movw	%bx,%ax
-# PeepHole Optimization,var11
-	andl	$65535,%eax
-	imulq	$72,%rax,%rax
-	movq	$-5,U_$P$HELLOWORLD_$$_CACHE+32(%rdx,%rax)
-	cmpw	$10,%bx
-	jl	.Lj203
-	cmpw	$75,%r15w
-	jl	.Lj200
-# [91] readln(n);
+.Lj189:
+	addq	$1,%rbx
+# [88] cache[i,j,0,0] := -1;
+	imulq	$792,%r15,%rdx
+	imulq	$72,%rbx,%rax
+	movq	$-1,U_$P$HELLOWORLD_$$_CACHE(%rdx,%rax)
+# [89] cache[i,j,0,1] := -1;
+	imulq	$792,%r15,%rax
+	imulq	$72,%rbx,%rdx
+	movq	$-1,U_$P$HELLOWORLD_$$_CACHE+8(%rax,%rdx)
+# [90] cache[i,j,1,0] := -1;
+	imulq	$792,%r15,%rax
+	imulq	$72,%rbx,%rdx
+	movq	$-1,U_$P$HELLOWORLD_$$_CACHE+24(%rax,%rdx)
+# [91] cache[i,j,1,1] := -1;
+	imulq	$792,%r15,%rax
+	imulq	$72,%rbx,%rdx
+	movq	$-1,U_$P$HELLOWORLD_$$_CACHE+32(%rax,%rdx)
+	cmpq	$10,%rbx
+	jl	.Lj189
+	cmpq	$75,%r15
+	jl	.Lj186
+# [93] readln(n);
 	call	fpc_get_input
 	movq	%rax,%r14
 	movq	$U_$P$HELLOWORLD_$$_N,%rsi
@@ -591,21 +513,23 @@ main:
 	movq	%r14,%rdi
 	call	fpc_readln_end
 	call	FPC_IOCHECK
-# [92] if(check(n))then
+# [94] len := Length(n);
+	movzbl	U_$P$HELLOWORLD_$$_N,%eax
+	movq	%rax,U_$P$HELLOWORLD_$$_LEN
+# [95] if(check(n))then
 	movq	$U_$P$HELLOWORLD_$$_N,%rdi
 	call	P$HELLOWORLD_$$_CHECK$SHORTSTRING$$BOOLEAN
 	testb	%al,%al
-	je	.Lj223
-# [93] writeln(count(0,0,0,0,n, @cache))
+	je	.Lj211
+# [96] Writeln(count(0,0,0,0,@n))
 	call	fpc_get_output
 	movq	%rax,%r14
-	movq	$U_$P$HELLOWORLD_$$_CACHE,%r9
 	movq	$U_$P$HELLOWORLD_$$_N,%r8
 	movl	$0,%ecx
 	movl	$0,%edx
 	movl	$0,%esi
 	movl	$0,%edi
-	call	P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$LONGINT$LONGINT$SHORTSTRING$PC$$INT64
+	call	P$HELLOWORLD_$$_COUNT$LONGINT$LONGINT$SHORTINT$SHORTINT$PS$$INT64
 	movq	%rax,%rdx
 	movq	%r14,%rsi
 	movl	$0,%edi
@@ -614,9 +538,9 @@ main:
 	movq	%r14,%rdi
 	call	fpc_writeln_end
 	call	FPC_IOCHECK
-	jmp	.Lj248
-.Lj223:
-# [94] else writeln('-1');
+	jmp	.Lj234
+.Lj211:
+# [97] else Writeln('-1');
 	call	fpc_get_output
 	movq	%rax,%r14
 	movq	$_$HELLOWORLD$_Ld1,%rdx
@@ -627,13 +551,12 @@ main:
 	movq	%r14,%rdi
 	call	fpc_writeln_end
 	call	FPC_IOCHECK
-.Lj248:
-	cmpw	%r13w,%r12w
-	jg	.Lj197
-.Lj196:
-# [96] end.
+.Lj234:
+	cmpq	%r13,%r12
+	jg	.Lj183
+.Lj182:
+# [99] end.
 	call	FPC_DO_EXIT
-	leaq	16(%rsp),%rsp
 	popq	%r15
 	popq	%r14
 	popq	%r13
@@ -649,62 +572,65 @@ main:
 # Begin asmlist al_globals
 
 .section .bss
-# [77] n:String;
+# [12] n:String;
 	.type U_$P$HELLOWORLD_$$_N,@object
 	.size U_$P$HELLOWORLD_$$_N,256
 U_$P$HELLOWORLD_$$_N:
 	.zero 256
 
 .section .bss
-	.balign 2
-# [78] countc, i, j, k: i16;
+	.balign 8
+# [13] countc, i, j, k, len: i64;
 	.type U_$P$HELLOWORLD_$$_COUNTC,@object
-	.size U_$P$HELLOWORLD_$$_COUNTC,2
+	.size U_$P$HELLOWORLD_$$_COUNTC,8
 U_$P$HELLOWORLD_$$_COUNTC:
-	.zero 2
-
-.section .bss
-	.balign 2
-	.type U_$P$HELLOWORLD_$$_I,@object
-	.size U_$P$HELLOWORLD_$$_I,2
-U_$P$HELLOWORLD_$$_I:
-	.zero 2
-
-.section .bss
-	.balign 2
-	.type U_$P$HELLOWORLD_$$_J,@object
-	.size U_$P$HELLOWORLD_$$_J,2
-U_$P$HELLOWORLD_$$_J:
-	.zero 2
-
-.section .bss
-	.balign 2
-	.type U_$P$HELLOWORLD_$$_K,@object
-	.size U_$P$HELLOWORLD_$$_K,2
-U_$P$HELLOWORLD_$$_K:
-	.zero 2
+	.zero 8
 
 .section .bss
 	.balign 8
-# [79] cache: C;
+	.type U_$P$HELLOWORLD_$$_I,@object
+	.size U_$P$HELLOWORLD_$$_I,8
+U_$P$HELLOWORLD_$$_I:
+	.zero 8
+
+.section .bss
+	.balign 8
+	.type U_$P$HELLOWORLD_$$_J,@object
+	.size U_$P$HELLOWORLD_$$_J,8
+U_$P$HELLOWORLD_$$_J:
+	.zero 8
+
+.section .bss
+	.balign 8
+	.type U_$P$HELLOWORLD_$$_K,@object
+	.size U_$P$HELLOWORLD_$$_K,8
+U_$P$HELLOWORLD_$$_K:
+	.zero 8
+
+.section .bss
+	.balign 8
+	.type U_$P$HELLOWORLD_$$_LEN,@object
+	.size U_$P$HELLOWORLD_$$_LEN,8
+U_$P$HELLOWORLD_$$_LEN:
+	.zero 8
+
+.section .bss
+	.balign 8
+# [14] cache: C;
 	.type U_$P$HELLOWORLD_$$_CACHE,@object
-	.size U_$P$HELLOWORLD_$$_CACHE,57024
+	.size U_$P$HELLOWORLD_$$_CACHE,60192
 U_$P$HELLOWORLD_$$_CACHE:
-	.zero 57024
+	.zero 60192
 
 .section .data.n_INITFINAL
 	.balign 8
 .globl	INITFINAL
 	.type	INITFINAL,@object
 INITFINAL:
-	.quad	3,0
+	.quad	1,0
 	.quad	INIT$_$SYSTEM
 	.quad	0
-	.quad	INIT$_$UNIX
-	.quad	FINALIZE$_$UNIX
-	.quad	INIT$_$CRT
-	.quad	FINALIZE$_$CRT
-# [97] 
+# [100] 
 .Le3:
 	.size	INITFINAL, .Le3 - INITFINAL
 
@@ -823,7 +749,7 @@ _$HELLOWORLD$_Ld1:
 	.byte	4
 	.long	.Lc6-.Lc4
 	.byte	14
-	.uleb128	312
+	.uleb128	56
 	.balign 4,0
 .Lc16:
 	.long	.Lc18-.Lc17
@@ -834,7 +760,7 @@ _$HELLOWORLD$_Ld1:
 	.byte	4
 	.long	.Lc9-.Lc7
 	.byte	14
-	.uleb128	24
+	.uleb128	8
 	.balign 4,0
 .Lc18:
 # End asmlist al_dwarf_frame
