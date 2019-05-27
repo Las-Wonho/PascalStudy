@@ -1,23 +1,21 @@
 program HelloWorld;
-uses crt;
 type
   i8 = ShortInt;
   i16 = SmallInt;
   i32 = LongInt;
   i64 = Int64;
-  u8 = Byte;
-  u16 = Word;
-  u32 = Cardinal;
-  f32 = Single;
-  f64 = Double;
-  IntArray = Array of i32;
-  IntArrayPtr = ^IntArray;
+  ps = ^String;
   C = array[0..75,0..10,0..2,0..2] of i64;
   pc = ^C;
 
+var
+   n:String;
+   countc, i, j, k, len: i64;
+   cache: C;
+
 function check(n: String): Boolean;
 var
-   i: i32;
+   i: i16;
    up,res: Boolean;
 begin
    up := true;
@@ -34,13 +32,14 @@ begin
 end;
 
 
-function count(idx: i32; pr: i32; s1: i32; s2: i32; n: String; cache:pc):i64;
+function count(idx: i32; pr: i32; s1: i8; s2: i8; n: ps):i64;
 var
-   res, tmp, len, i: i64;
+   res: i64;
+   tmp, t,i: i16;
 begin
-   len := Length(n);
+   res := cache[idx,pr,s1,s2];
+   if(res<>-1) then Exit(res);
    tmp := 0;
-   if(cache^[idx,pr,s1,s2]<>-5) then Exit(cache^[idx,pr,s1,s2]);
    if(idx = len) then begin
       Exit(s1);
    end;
@@ -52,52 +51,49 @@ begin
          if(s2 = 0) then
          begin
             if(pr <= i) then
-               res := res + count(idx+1, i, s1, 0, n, cache) 
-            else res := res + count(idx+1, i, s1, 1, n, cache);
+               res := res + count(idx+1, i, s1, 0, n) 
+            else res := res + count(idx+1, i, s1, 1, n);
          end
          else if(pr >= i) then
-              res := res + count(idx+1, i, s1, 1, n, cache);
+              res := res + count(idx+1, i, s1, 1, n);
       end;
    end
    else
    begin
-      for i := 0 to (i32(n[idx+1])-48) do begin
-         if(i < i32(n[idx+1])-48) then tmp := 1
+      t := i32(n^[idx+1])-48;
+      for i := 0 to t do begin
+         if(i < t) then tmp := 1
          else tmp := 0;
          if(s2 = 0) then
          begin
             if(pr <= i) then
-               res := res + count(idx+1, i, tmp, 0, n,cache)
+               res := res + count(idx+1, i, tmp, 0, n)
             else
-               res := res + count(idx+1, i, tmp, 1, n,cache);
+               res := res + count(idx+1, i, tmp, 1, n);
          end
          else if(pr >= i) then
-            res := res + count(idx+1, i, tmp, 1, n,cache);
+            res := res + count(idx+1, i, tmp, 1, n);
       end;
    end;
-   cache^[idx,pr,s1,s2] := res;
-   Exit(cache^[idx,pr,s1,s2]);
+   cache[idx,pr,s1,s2] := res;
+   Exit(res);
 end;
 
-var
-   n:String;
-   countc, i, j, k: i64;
-   cache: C;
 
 begin
    readln(countc);
    for k := 0 to countc-1 do begin
       for i := 0 to 75 do
          for j := 0 to 10 do begin
-            cache[i,j,0,0] := -5;
-            cache[i,j,0,1] := -5;
-            cache[i,j,1,0] := -5;
-            cache[i,j,1,1] := -5;
+            cache[i,j,0,0] := -1;
+            cache[i,j,0,1] := -1;
+            cache[i,j,1,0] := -1;
+            cache[i,j,1,1] := -1;
          end;
       readln(n);
+      len := Length(n);
       if(check(n))then
-      Write(count(0,0,0,0,n, @cache))
-      else Write('-1');
-      Write(#13#10);
+      Writeln(count(0,0,0,0,@n))
+      else Writeln('-1');
    end;
 end.
